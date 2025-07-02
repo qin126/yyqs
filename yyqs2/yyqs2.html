@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>枫笺</title>
+    <script src="https://cdn.tailwindcss.com/3.3.3"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Noto Sans SC', sans-serif;
+            background: linear-gradient(135deg, #F0E6FF 0%, #E6E6FA 100%);
+            color: #5D4037;
+            overflow-x: hidden;
+        }
+        
+        .glassmorphism {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+        }
+        
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 28px 0 rgba(31, 38, 135, 0.2);
+        }
+        
+        .highlight-text {
+            position: relative;
+            display: inline-block;
+        }
+        
+        .highlight-text::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 6px;
+            background-color: rgba(255, 133, 162, 0.2);
+            z-index: -1;
+        }
+        
+        .lyric-line {
+            transition: all 0.3s ease;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+        }
+        
+        .lyric-line.active {
+            background-color: rgba(255, 133, 162, 0.1);
+            transform: scale(1.02);
+            font-weight: 500;
+        }
+        
+        .player-controls {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+        }
+        
+        .progress-bar {
+            height: 4px;
+            background-color: rgba(255, 133, 162, 0.2);
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background-color: #FF85A2;
+            width: 0%;
+            transition: width 0.1s linear;
+        }
+        
+        .blob {
+            position: absolute;
+            background: linear-gradient(135deg, #D1C4E9 0%, #B39DDB 100%);
+            filter: blur(60px);
+            opacity: 0.15;
+            border-radius: 50%;
+            animation: blob-movement 15s infinite linear;
+            z-index: -2;
+        }
+        
+        @keyframes blob-movement {
+            0% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(5%, -10%) scale(1.3); }
+            66% { transform: translate(-15%, 5%) scale(0.9); }
+            100% { transform: translate(0, 0) scale(1); }
+        }
+    </style>
+</head>
+<body class="min-h-screen">
+    <div class="blob w-96 h-96 top-0 left-0"></div>
+    <div class="blob w-80 h-80 bottom-0 right-0"></div>
+
+    <!-- 主内容区 -->
+    <div class="container mx-auto py-12 px-4 md:px-8">
+        <div class="glassmorphism p-8 mb-8">
+            <div class="flex flex-col md:flex-row items-center gap-8">
+                <div class="w-full md:w-1/3">
+                    <div class="aspect-square bg-pink-50 rounded-xl overflow-hidden shadow-lg">
+                        <img src="pic.png" 
+                             alt="歌曲封面" class="w-full h-full object-cover">
+                    </div>
+                </div>
+                <div class="w-full md:w-2/3">
+                    <h1 class="text-3xl md:text-4xl font-bold mb-4 text-brown-800">枫笺</h1>
+                    <p class="text-lg text-pink-600 mb-6">取材自同人小说《榆杨情深》，在《榆杨情深（兴华恋曲篇）》基础上优化</p>
+                    
+                    <div class="player-controls rounded-xl p-4 mb-6">
+                        <audio id="audioPlayer" src="music.wav"></audio>
+                        
+                        <div class="flex items-center justify-between mb-3">
+                            <button id="playBtn" class="w-12 h-12 rounded-full bg-pink-500 text-white flex items-center justify-center hover:bg-pink-600 transition-colors">
+                                <i class="fas fa-play"></i>
+                            </button>
+                            <div class="text-sm text-brown-800">
+                                <span id="currentTime">0:00</span> / <span id="duration">0:00</span>
+                            </div>
+                        </div>
+                        
+                        <div class="progress-bar rounded-full mb-2">
+                            <div id="progressFill" class="progress-fill rounded-full"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 歌词区 -->
+        <div class="glassmorphism p-8">
+            <h2 class="text-2xl font-bold mb-6 text-brown-800 flex items-center">
+                <i class="fas fa-music mr-3"></i>歌词
+            </h2>
+            
+            <div class="lyrics-container max-h-96 overflow-y-auto pr-4">
+                <div class="space-y-3">
+                    <div class="lyric-line text-brown-800" data-time="2">策划：俞杨CP党第一书记 章有期</div>
+                    <div class="lyric-line text-brown-800" data-time="6">作曲：KouziAI</div>
+                    <div class="lyric-line text-brown-800" data-time="10">歌词修改：KouziAI(基于《榆杨情深（兴华恋曲篇）》)</div>
+                    <div class="lyric-line text-brown-800" data-time="12">歌曲合成：俞杨CP党第一书记 章有期</div>
+                    <div class="lyric-line text-brown-800" data-time="22.60">霜枫坠地 初遇在学园</div>
+                    <div class="lyric-line text-brown-800" data-time="29.96">眸波轻转 书囊 散落阶前</div>
+                    <div class="lyric-line text-brown-800" data-time="37.32">伊拾相递 指尖微颤 触电</div>
+                    <div class="lyric-line text-brown-800" data-time="44.60">似星子 坠入心涧</div>
+                    <div class="lyric-line text-brown-800" data-time="51.04"></div>
+                    <div class="lyric-line text-brown-800" data-time="51.67">湖畔并肩 细说星汉</div>
+                    <div class="lyric-line text-brown-800" data-time="58.00">暖茶氤氲 笑语柔婉</div>
+                    <div class="lyric-line text-brown-800" data-time="65.32">画栏共倚 羽拍轻挥 雪印双浅</div>
+                    <div class="lyric-line text-brown-800" data-time="77.12"></div>
+                    <div class="lyric-line text-brown-800" data-time="78.68">夜窗灯暖 同研书卷</div>
+                    <div class="lyric-line text-brown-800" data-time="85.04">鬓角相挨 呼吸交融 梦间</div>
+                    <div class="lyric-line text-brown-800" data-time="92.40">试后轻叹 泪睫微闪</div>
+                    <div class="lyric-line text-brown-800" data-time="98.04">红兵低慰 轻拭腮边</div>
+                    <div class="lyric-line text-brown-800" data-time="105.20"></div>
+                    <div class="lyric-line text-brown-800" data-time="106.64">灯影摇漾 倒影双双</div>
+                    <div class="lyric-line text-brown-800" data-time="113.08">暗将誓约 锦笺 深藏</div>
+                    <div class="lyric-line text-brown-800" data-time="120.44">书签题字 情愫初绽</div>
+                    <div class="lyric-line text-brown-800" data-time="127.76">待春风 共赏桃芳</div>
+                    <div class="lyric-line text-brown-800" data-time="132.84">岁华流转 难忘初见</div>
+                    <div class="lyric-line text-brown-800" data-time="140.24">眼波如谜 忠红 红兵</div>
+                    <div class="lyric-line text-brown-800" data-time="148.40">未经允许，不得传播、转录、复制</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const audioPlayer = document.getElementById('audioPlayer');
+            const playBtn = document.getElementById('playBtn');
+            const currentTimeEl = document.getElementById('currentTime');
+            const durationEl = document.getElementById('duration');
+            const progressFill = document.getElementById('progressFill');
+            const lyricLines = document.querySelectorAll('.lyric-line');
+            
+            // 更新播放时间显示
+            function updateTimeDisplay() {
+                const currentTime = audioPlayer.currentTime;
+                const duration = audioPlayer.duration || 0;
+                
+                currentTimeEl.textContent = formatTime(currentTime);
+                durationEl.textContent = formatTime(duration);
+                
+                const progressPercent = (currentTime / duration) * 100;
+                progressFill.style.width = `${progressPercent}%`;
+                
+                // 高亮当前播放的歌词
+                updateLyricHighlight(currentTime);
+            }
+            
+            // 格式化时间显示
+            function formatTime(seconds) {
+                const mins = Math.floor(seconds / 60);
+                const secs = Math.floor(seconds % 60);
+                return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
+            }
+            
+            let lastActiveLine = null;
+
+    // 更新歌词高亮
+    function updateLyricHighlight(currentTime) {
+        let activeLine = null;
+    
+        lyricLines.forEach(line => {
+            line.classList.remove('active');
+            const time = parseFloat(line.dataset.time) || 0;
+        
+            if (currentTime >= time) {
+                activeLine = line;
+            }
+        });
+    
+        if (activeLine) {
+            activeLine.classList.add('active');
+            // 只有当切换到新歌词时才滚动
+            if (activeLine !== lastActiveLine) {
+                activeLine.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                lastActiveLine = activeLine;
+            }
+        }
+    }
+            
+            // 播放/暂停按钮点击事件
+            playBtn.addEventListener('click', function() {
+                if (audioPlayer.paused) {
+                    audioPlayer.play();
+                    playBtn.innerHTML = '<i class="fas fa-pause"></i>';
+                } else {
+                    audioPlayer.pause();
+                    playBtn.innerHTML = '<i class="fas fa-play"></i>';
+                }
+            });
+            
+            // 进度条点击事件
+            progressFill.parentElement.addEventListener('click', function(e) {
+                const rect = this.getBoundingClientRect();
+                const clickPosition = e.clientX - rect.left;
+                const percentClicked = clickPosition / rect.width;
+                audioPlayer.currentTime = percentClicked * audioPlayer.duration;
+            });
+            
+            // 播放状态变化事件
+            audioPlayer.addEventListener('play', function() {
+                playBtn.innerHTML = '<i class="fas fa-pause"></i>';
+            });
+            
+            audioPlayer.addEventListener('pause', function() {
+                playBtn.innerHTML = '<i class="fas fa-play"></i>';
+            });
+            
+            // 时间更新事件
+            audioPlayer.addEventListener('timeupdate', updateTimeDisplay);
+            
+            // 元数据加载完成事件
+            audioPlayer.addEventListener('loadedmetadata', function() {
+                durationEl.textContent = formatTime(audioPlayer.duration);
+            });
+            
+            // 歌词点击跳转
+            lyricLines.forEach(line => {
+                const time = parseFloat(line.dataset.time);
+                if (!isNaN(time)) {
+                    line.style.cursor = 'pointer';
+                    line.addEventListener('click', function() {
+                        audioPlayer.currentTime = time;
+                        if (audioPlayer.paused) {
+                            audioPlayer.play();
+                            playBtn.innerHTML = '<i class="fas fa-pause"></i>';
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+    <div style="color: #666; font-size: 12px;">
+            内容纯属虚构，如有雷同纯属巧合，如有撞名纯属巧合！！！
+    </div>
+</body>
+</html>
