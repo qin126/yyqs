@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>榆杨情深合集</title>
+    <script src="https://cdn.tailwindcss.com/3.3.3"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Noto Sans SC', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4eaf5 100%);
+            color: #333;
+            min-height: 100vh;
+        }
+        
+        .music-card {
+            transition: all 0.3s ease;
+            transform: translateY(0);
+        }
+        
+        .music-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 24px rgba(0,0,0,0.1);
+        }
+        
+        .card-cover {
+            aspect-square;
+            object-cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .music-card:hover .card-cover {
+            transform: scale(1.05);
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #4a6fa5 0%, #166088 100%);
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #3a5f95 0%, #065078 100%);
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body class="container mx-auto px-4 py-12">
+    <header class="text-center mb-16">
+        <h1 class="text-4xl md:text-5xl font-bold mb-4 bg-clip-text text-transparent bg-gradient(135deg, #4a6fa5 0%, #166088 100%)">
+            榆杨情深 合集
+        </h1>
+        <p class="text-lg text-gray-600 max-w-2xl mx-auto">
+            点击下方卡片播放
+        </p>
+    </header>
+    
+    <main class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+        <!-- 第一首歌曲：榆杨情深 -->
+        <div class="music-card bg-white rounded-2xl overflow-hidden shadow-lg">
+            <div class="relative overflow-hidden">
+                <img src="yyqs.png" alt="榆杨情深 - 封面" class="card-cover w-full">
+                <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end">
+                    <h2 class="text-white text-2xl font-bold p-6">榆杨情深(兴华恋曲篇)</h2>
+                </div>
+            </div>
+            <div class="p-6">
+                <p class="text-gray-600 mb-6">
+                    一首充满诗意的古风校园恋歌，取材自同名同人小说《榆杨情深》
+                </p>
+                <a href="yyqs/yyqs.html" class="btn-primary inline-block text-white font-medium py-3 px-6 rounded-full w-full text-center">
+                    <i class="fas fa-music mr-2"></i>播放
+                </a>
+            </div>
+        </div>
+        
+        <!-- 第二首歌曲：枫笺 -->
+        <div class="music-card bg-white rounded-2xl overflow-hidden shadow-lg">
+            <div class="relative overflow-hidden">
+                <img src="yyqs2.png" alt="枫笺 - 封面" class="card-cover w-full">
+                <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end">
+                    <h2 class="text-white text-2xl font-bold p-6">枫笺</h2>
+                </div>
+            </div>
+            <div class="p-6">
+                <p class="text-gray-600 mb-6">
+                    取材自同人小说《榆杨情深》，在《榆杨情深（兴华恋曲篇）》基础上优化
+                </p>
+                <a href="yyqs2/yyqs2.html" class="btn-primary inline-block text-white font-medium py-3 px-6 rounded-full w-full text-center">
+                    <i class="fas fa-music mr-2"></i>播放
+                </a>
+            </div>
+        </div>
+    </main>
+    
+    <div style="color: #666; font-size: 12px;">
+        <br>
+        <br>
+        <br>    
+        内容纯属虚构，如有雷同纯属巧合，如有撞名纯属巧合！！！
+    </div>
+</body>
+</html>
